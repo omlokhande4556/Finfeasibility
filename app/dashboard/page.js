@@ -13,18 +13,52 @@ import {
   AlertTriangle,
   Landmark,
   CalendarDays,
-  Gauge
+  Gauge,
 } from "lucide-react";
 
 function scoreTier(score) {
-  if (score >= 70) return { bg: "#E8F0E0", text: "#3B5E3D", bar: "#4D7C4F" };
-  if (score >= 40) return { bg: "#F7ECD6", text: "#8A5A12", bar: "#B45309" };
-  return { bg: "#F6E0DE", text: "#9A3412", bar: "#C2410C" };
+  if (score >= 70) {
+    return {
+      bg: "#E8F0E0",
+      text: "#3B5E3D",
+      bar: "#4D7C4F",
+    };
+  }
+
+  if (score >= 40) {
+    return {
+      bg: "#F7ECD6",
+      text: "#8A5A12",
+      bar: "#B45309",
+    };
+  }
+
+  return {
+    bg: "#F6E0DE",
+    text: "#9A3412",
+    bar: "#C2410C",
+  };
 }
+
 function confidenceTier(score) {
-  if (score >= 75) return { bg: "#E8F0E0", text: "#3B5E3D" };
-  if (score >= 50) return { bg: "#F7ECD6", text: "#8A5A12" };
-  return { bg: "#F6E0DE", text: "#9A3412" };
+  if (score >= 75) {
+    return {
+      bg: "#E8F0E0",
+      text: "#3B5E3D",
+    };
+  }
+
+  if (score >= 50) {
+    return {
+      bg: "#F7ECD6",
+      text: "#8A5A12",
+    };
+  }
+
+  return {
+    bg: "#F6E0DE",
+    text: "#9A3412",
+  };
 }
 
 const CATEGORY_ICON = {
@@ -38,11 +72,14 @@ const CATEGORY_ICON = {
 
 export default async function Dashboard() {
   const supabase = await createClient();
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect("/login");
+  if (!user) {
+    redirect("/login");
+  }
 
   const { data: ideas, error } = await supabase
     .from("business_ideas")
@@ -50,10 +87,13 @@ export default async function Dashboard() {
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
 
-  const scores = ideas?.map((i) => i.viability_score).filter((s) => s != null) || [];
+  const scores =
+    ideas?.map((i) => i.viability_score).filter((s) => s != null) || [];
+
   const avgScore = scores.length
     ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
     : null;
+
   const bestScore = scores.length ? Math.max(...scores) : null;
 
   return (
@@ -66,13 +106,16 @@ export default async function Dashboard() {
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
               YOUR PORTFOLIO
             </span>
+
             <h1 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight text-ink text-balance">
               Your Ideas
             </h1>
+
             <p className="mt-2 text-sm text-muted leading-relaxed">
-              Track every idea you've checked and its outlook
+              Track every idea you&apos;ve checked and its outlook
             </p>
           </div>
+
           <Link
             href="/idea-check"
             className="shrink-0 inline-flex items-center gap-1.5 bg-primary text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-primary-dark transition-colors shadow-sm"
@@ -87,27 +130,41 @@ export default async function Dashboard() {
           <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-8">
             <div className="rounded-xl2 border border-[#E3D9C8] bg-white p-4 sm:p-5 shadow-sm">
               <div className="flex items-center gap-2 text-muted mb-2">
-                <LayoutGrid className="h-4 w-4 text-secondary" aria-hidden="true" />
+                <LayoutGrid
+                  className="h-4 w-4 text-secondary"
+                  aria-hidden="true"
+                />
                 <p className="text-xs font-medium">Ideas checked</p>
               </div>
+
               <p className="text-2xl sm:text-3xl font-bold text-ink leading-none">
                 {ideas.length}
               </p>
             </div>
+
             <div className="rounded-xl2 border border-[#E3D9C8] bg-white p-4 sm:p-5 shadow-sm">
               <div className="flex items-center gap-2 text-muted mb-2">
-                <TrendingUp className="h-4 w-4 text-secondary" aria-hidden="true" />
+                <TrendingUp
+                  className="h-4 w-4 text-secondary"
+                  aria-hidden="true"
+                />
                 <p className="text-xs font-medium">Average score</p>
               </div>
+
               <p className="text-2xl sm:text-3xl font-bold text-secondary leading-none">
                 {avgScore ?? "—"}
               </p>
             </div>
+
             <div className="rounded-xl2 border border-[#E3D9C8] bg-white p-4 sm:p-5 shadow-sm">
               <div className="flex items-center gap-2 text-muted mb-2">
-                <Award className="h-4 w-4 text-accent" aria-hidden="true" />
+                <Award
+                  className="h-4 w-4 text-accent"
+                  aria-hidden="true"
+                />
                 <p className="text-xs font-medium">Best idea</p>
               </div>
+
               <p className="text-2xl sm:text-3xl font-bold text-accent leading-none">
                 {bestScore ?? "—"}
               </p>
@@ -127,10 +184,15 @@ export default async function Dashboard() {
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F5F1EA] text-secondary">
               <Sparkles className="h-6 w-6" aria-hidden="true" />
             </div>
-            <p className="font-bold text-ink text-lg mb-1">No ideas checked yet</p>
+
+            <p className="font-bold text-ink text-lg mb-1">
+              No ideas checked yet
+            </p>
+
             <p className="text-sm text-muted mb-5">
               Check your first business idea to see it here.
             </p>
+
             <Link
               href="/idea-check"
               className="inline-flex items-center gap-1.5 bg-primary text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-primary-dark transition-colors shadow-sm"
@@ -147,19 +209,30 @@ export default async function Dashboard() {
             const tier = scoreTier(idea.viability_score ?? 0);
             const topStrength = idea.strengths?.[0];
             const topRisk = idea.risks?.[0];
+
             const scheme =
-              typeof idea.suggested_schemes === "object" && idea.suggested_schemes
+              typeof idea.suggested_schemes === "object" &&
+              idea.suggested_schemes
                 ? idea.suggested_schemes.name
                 : idea.suggested_schemes;
+
             const icon = CATEGORY_ICON[idea.business_type] || "💼";
-            const confTier = idea.confidence_score != null ? confidenceTier(idea.confidence_score) : null;
+
+            const confTier =
+              idea.confidence_score != null
+                ? confidenceTier(idea.confidence_score)
+                : null;
 
             return (
               <div
                 key={idea.id}
                 className="rounded-xl2 border border-[#E3D9C8] bg-white overflow-hidden hover:border-secondary/50 hover:shadow-md transition-all shadow-sm"
               >
-                <div className="h-1.5" style={{ backgroundColor: tier.bar }} />
+                <div
+                  className="h-1.5"
+                  style={{ backgroundColor: tier.bar }}
+                />
+
                 <div className="p-6">
                   <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="flex items-center gap-3">
@@ -169,12 +242,17 @@ export default async function Dashboard() {
                       >
                         {icon}
                       </div>
+
                       <div>
                         <h2 className="font-bold text-ink text-base leading-tight">
                           {idea.business_name}
                         </h2>
+
                         <p className="text-xs text-muted mt-1 inline-flex items-center gap-1">
-                          <MapPin className="h-3 w-3" aria-hidden="true" />
+                          <MapPin
+                            className="h-3 w-3"
+                            aria-hidden="true"
+                          />
                           {idea.location} · {idea.business_type}
                         </p>
                       </div>
@@ -184,10 +262,14 @@ export default async function Dashboard() {
                       <div className="text-center shrink-0">
                         <div
                           className="w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-base shadow-sm"
-                          style={{ backgroundColor: tier.bar, color: "#ffffff" }}
+                          style={{
+                            backgroundColor: tier.bar,
+                            color: "#ffffff",
+                          }}
                         >
                           {idea.viability_score}
                         </div>
+
                         <p className="text-[10px] font-semibold tracking-wider text-muted mt-1">
                           SCORE
                         </p>
@@ -205,19 +287,30 @@ export default async function Dashboard() {
                     <div className="flex flex-wrap gap-2 mb-4">
                       {topStrength && (
                         <span className="inline-flex items-center gap-1.5 bg-[#E8F0E0] text-[#3B5E3D] text-xs font-medium px-3 py-1.5 rounded-full">
-                          <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                          <ArrowUpRight
+                            className="h-3.5 w-3.5"
+                            aria-hidden="true"
+                          />
                           {topStrength}
                         </span>
                       )}
+
                       {topRisk && (
                         <span className="inline-flex items-center gap-1.5 bg-[#F6E0DE] text-[#9A3412] text-xs font-medium px-3 py-1.5 rounded-full">
-                          <AlertTriangle className="h-3.5 w-3.5" aria-hidden="true" />
+                          <AlertTriangle
+                            className="h-3.5 w-3.5"
+                            aria-hidden="true"
+                          />
                           {topRisk}
                         </span>
                       )}
+
                       {scheme && (
                         <span className="inline-flex items-center gap-1.5 bg-[#EAF0F5] text-[#2F5A80] text-xs font-medium px-3 py-1.5 rounded-full">
-                          <Landmark className="h-3.5 w-3.5" aria-hidden="true" />
+                          <Landmark
+                            className="h-3.5 w-3.5"
+                            aria-hidden="true"
+                          />
                           {scheme}
                         </span>
                       )}
@@ -226,24 +319,34 @@ export default async function Dashboard() {
 
                   <div className="flex items-center justify-between border-t border-[#E3D9C8] pt-3">
                     <p className="text-xs text-muted inline-flex items-center gap-1.5">
-                      <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
+                      <CalendarDays
+                        className="h-3.5 w-3.5"
+                        aria-hidden="true"
+                      />
+
                       {new Date(idea.created_at).toLocaleDateString("en-IN", {
                         day: "numeric",
                         month: "short",
                         year: "numeric",
                       })}
                     </p>
-                    {/* NEW — confidence badge */}
+
+                    {/* CONFIDENCE BADGE */}
                     {confTier && (
-                  <span
-                  className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full"
-                  style={{ backgroundColor: confTier.bg, color: confTier.text }}
-                  >
-                <Gauge className="h-3 w-3" aria-hidden="true" />
-              {idea.confidence_score}% confidence
-            </span>
-          )} 
-                    
+                      <span
+                        className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full"
+                        style={{
+                          backgroundColor: confTier.bg,
+                          color: confTier.text,
+                        }}
+                      >
+                        <Gauge
+                          className="h-3 w-3"
+                          aria-hidden="true"
+                        />
+                        {idea.confidence_score}% confidence
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
