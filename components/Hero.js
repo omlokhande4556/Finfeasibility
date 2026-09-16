@@ -6,10 +6,10 @@ export default function Hero() {
       <div className="max-w-6xl mx-auto px-5 py-24 grid md:grid-cols-2 gap-10 items-center">
         <div>
           <span className="inline-block text-xs font-bold tracking-widest text-accent mb-4">
-            SIH 2026 &middot; SIH26091
+           SIH 2026 &middot; SIH26091
           </span>
           <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-            Business advice built for the village, not the boardroom.
+           FinFeasibility
           </h1>
           <p className="text-[#D8C9B8] text-lg leading-relaxed mb-8">
             Evaluate a business idea, understand your local market, and get a
@@ -18,7 +18,7 @@ export default function Hero() {
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
-              href="/idea-check"
+              href="/login"
               className="bg-primary hover:bg-primary-dark text-white font-semibold px-6 py-3 rounded-full transition-colors"
             >
               Check My Business Idea

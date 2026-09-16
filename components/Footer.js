@@ -26,8 +26,8 @@ export default function Footer() {
 
         <div>
           <div className="font-semibold text-sm mb-3 text-accent">Team</div>
-          <p className="text-sm text-[#D8C9B8]">Your Team Name</p>
-          <p className="text-sm text-[#D8C9B8]">Team ID: Your Team ID</p>
+          <p className="text-sm text-[#D8C9B8]">SaarvoPlus</p>
+          <p className="text-sm text-[#D8C9B8]">SIH26091</p>
         </div>
       </div>
       <div className="border-t border-white/10 text-center text-xs text-[#D8C9B8] py-4">

@@ -96,7 +96,7 @@ export default function HomePage() {
             the AI and financial engine are connected.
           </p>
           <Link
-            href="/idea-check"
+            href="/signup"
             className="inline-block bg-primary hover:bg-primary-dark text-white font-semibold px-6 py-3 rounded-full transition-colors"
           >
             Try the Demo
